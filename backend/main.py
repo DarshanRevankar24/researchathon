@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import Optional, Dict, Any
 import uvicorn
 import logging
+from fastapi.middleware.cors import CORSMiddleware  # <-- IMPORT THIS
 
 from processors.image_processor import image_processor
 from processors.text_processor import text_processor
@@ -16,8 +17,25 @@ app = FastAPI(
     title="Explainable Deepfake Detection API",
     description="Multi-modal AI-generated content detection with explainability",
     version="1.0.0"
-    # redoc_url="/redocumentation"
 )
+
+# --- ADD THIS MIDDLEWARE SECTION ---
+origins = [
+    "http://localhost",
+    "http://localhost:5173", # Assuming your React frontend runs here
+    "http://127.0.0.1:5173",
+    "http://192.168.0.101:8088/",
+    # Add any other origins you need to support
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, replace with specific origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+# ------------------------------------
 
 class TextRequest(BaseModel):
     text: str
@@ -33,21 +51,10 @@ async def startup_event():
     """Initialize models on startup"""
     logger.info("🚀 Initializing Deepfake Detection API...")
     # Load placeholder models
+    # NOTE: See section 2 about this path!
     image_processor.load_model("models/image_detector.pth")
     text_processor.load_model("models/text_detector.pth")
     logger.info("✅ All models initialized (placeholder)")
-
-# @app.get("/")
-# async def root():
-#     return {
-#         "message": "Explainable Deepfake Detection API", 
-#         "status": "active",
-#         "endpoints": {
-#             "image": "/detect/image",
-#             "text": "/detect/text",
-#             "health": "/health"
-#         }
-#     }
 
 @app.get("/health")
 async def health_check():

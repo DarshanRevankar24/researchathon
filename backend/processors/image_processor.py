@@ -72,7 +72,7 @@ class ImageProcessor:
         if self.model is None:
             # --- !! UPDATE THIS PATH !! ---
             # Make sure this path is correct for your API's file structure
-            self.load_model("best_model.pth") 
+            self.load_model("D:/hackathonn/researchaton/backend/processors/best_model.pth") 
         
         image_tensor = image_tensor.to(self.device)
         
@@ -102,7 +102,7 @@ class ImageProcessor:
     def generate_explanations(self, image_tensor):
         """Generate Grad-CAM explanations (Real Implementation)"""
         if self.model is None:
-            self.load_model("best_model.pth")
+            self.load_model("D:/hackathonn/researchaton/backend/processors/best_model.pth")
             
         self.model.eval()
         

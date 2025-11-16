@@ -16,10 +16,6 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements file first (it's in the same dir as the Dockerfile)
 COPY requirements.txt .
 
-# --- IMPORTANT ---
-# I strongly recommend you change 'opencv-contrib-python' in your 
-# requirements.txt to 'opencv-contrib-python-headless' to avoid 
-# GUI errors in Docker. This command assumes you have made that change.
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 4. Copy Application Code
