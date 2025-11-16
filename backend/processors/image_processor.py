@@ -172,8 +172,8 @@ class ImageProcessor:
         
         return {
             'heatmap': f"data:image/png;base64,{overlay_b64}",
-            'suspicious_regions': ['(placeholder) face', '(placeholder) eyes'],
-            'manipulation_type': '(placeholder) AI-generated'
+            'suspicious_regions': [],
+            'manipulation_type': ''
         }
 
 # Global instance
